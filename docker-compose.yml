@@ -13,9 +13,9 @@ services:
       - gql
 
 
-
   graphql:
     image: graphql_fastapi-1:latest
+    build: .
     container_name: graphql_fastapi
     ports:
       - 8000:8000
