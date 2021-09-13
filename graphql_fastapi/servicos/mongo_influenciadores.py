@@ -1,5 +1,6 @@
 from graphql_fastapi.servicos.mongo import ModMongo
 from bson import ObjectId
+from graphql_fastapi.utils.utils import normaliza_id
 
 VISIBLE = {"nome": 1, "seguidores": 1, "tags": 1}
 
@@ -16,11 +17,21 @@ class MongoInfluenciadores(ModMongo):
 
         return self.set_document(self.__collection, create).inserted_id
 
-    def busca_influenciadores(self, qtd_registros_pagina: int = 10, numero_pagina: int = 0):
-        return [item for item in
-                self.get_document(collection=self.__collection, visible={"nome": 1, "seguidores": 1, "tags": 1},
-                                  qtd_registros_pagina=qtd_registros_pagina,
-                                  numero_pagina=numero_pagina)]
+    def busca_influenciadores(self, qtd_registros_pagina: int = 10, numero_pagina: int = 0, campos: dict = None):
+
+        if campos is None:
+            campos = VISIBLE
+
+        retorno = [item for item in
+                   self.get_document(collection=self.__collection, visible=campos,
+                                     qtd_registros_pagina=qtd_registros_pagina,
+                                     numero_pagina=numero_pagina)]
+        try:
+            if '_id' in campos.keys():
+                retorno = normaliza_id(retorno)
+        except KeyError as err:
+            pass
+        return retorno
 
     def busca_influenciador_por_id(self, id: str):
         return self.get_document(collection=self.__collection, filter={"_id": ObjectId(id)},

@@ -10,7 +10,8 @@ requiriments = [
     'graphql-core<3',
     'fastapi',
     'uvicorn[standard]',
-    'pymongo==3.12.0'
+    'pymongo==3.12.0',
+    'pydantic==1.8.2'
 ]
 
 NAME = 'hello_graphQL'

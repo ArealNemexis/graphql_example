@@ -1,10 +1,11 @@
 from pymongo import MongoClient
 from bson import ObjectId
+from graphql_fastapi.config import envs
 
 
 class ModMongo:
 
-    def __init__(self, db, host='mongodb_gql', port='27017'):
+    def __init__(self, db, host=envs.HOST_MONGO, port='27017'):
         conexao = f'mongodb://{host}:{port}/{db}'
         self.__client = MongoClient(conexao)
         self.__db = self.__client.get_database()

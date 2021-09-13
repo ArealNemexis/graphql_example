@@ -1,12 +1,8 @@
 from graphql_fastapi.schemas.influenciador import Influenciador
 from graphql_fastapi.servicos.mongo_influenciadores import MongoInfluenciadores
+from graphql_fastapi.utils.utils import normaliza_id
 
 
-def normaliza_id(lista: list):
-    for item in lista:
-        item['_id'] = str(item['_id'])
-
-    return lista
 
 
 def cria_influenciador(nome: str, seguidores: int, tags: list):
